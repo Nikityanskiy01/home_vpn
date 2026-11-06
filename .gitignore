@@ -1,0 +1,20 @@
+# Секреты и локальные экспорты
+.env
+.env.*
+!.env.example
+secrets/
+private/
+*.key
+*.pem
+id_*
+*.ovpn
+*.conf.local
+backup/
+*.tar.gz
+*.img
+
+# Редакторы и ОС
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
