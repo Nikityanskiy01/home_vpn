@@ -34,19 +34,33 @@ DIRECT не зависит от сервера: если Proxmox выключе�
 4. [Подключите Nikki/Mihomo, Berendey, Remnawave и DNS](docs/04-nikki-mihomo-dns.md).
 5. [Проверьте fail-closed и подготовьте откат](docs/05-проверка-и-откат.md).
 6. Для сопровождения настройки через Cursor используйте [готовый промт](docs/CURSOR-PROMPT.md).
+7. Если это ваш первый раз с Proxmox/VLAN, идите по [супер-подробному сценарию](docs/07-пошагово-для-новичка.md).
 
 Шаблоны лежат в [`templates/`](templates/). Они не содержат секретов и не применяются автоматически.
 
 ## Схема
 
-```text
-Интернет → Keenetic (DIRECT, 192.168.1.1)
-                 ├─ обычные устройства DIRECT
-                 └─ Proxmox → OpenWrt VM110
-                              ├─ management 10.77.0.1/24
-                              ├─ VLAN 20 / SMART 10.77.20.0/24 → Berendey
-                              └─ VLAN 30 / FULL  10.77.30.0/24 → Remnawave
+```mermaid
+flowchart TD
+  I[Интернет] --> K[Keenetic\nглавный роутер / DIRECT]
+  K --> D[Обычные устройства\nDIRECT]
+  K --> P[Proxmox VE]
+  P --> O[OpenWrt VM110\nNikki + Mihomo]
+  P --- M[Management\nOpenWrt 10.77.0.1\nProxmox 10.77.0.2]
+  O --> S[VLAN 20 · SMART\n10.77.20.0/24\nBerendey]
+  O --> F[VLAN 30 · FULL\n10.77.30.0/24\nRemnawave]
+  S --> X[Часть сайтов VPN,\nчасть DIRECT]
+  F --> V[Только VPN\nVPN упал → интернета нет]
 ```
+
+### Кто за что отвечает
+
+| Компонент | Не надо в нём настраивать | Что он делает |
+|---|---|---|
+| Keenetic | VPN-правила SMART/FULL | даёт обычный интернет и DIRECT |
+| Proxmox | маршрутизацию клиентов | запускает VM и передаёт VLAN |
+| OpenWrt | доступ к интернету DIRECT | DHCP, firewall и шлюз SMART/FULL |
+| Nikki/Mihomo | VLAN и физические порты | правила прокси/VPN, DNS и прозрачный перехват |
 
 ## Быстрый контроль перед публикацией
 
