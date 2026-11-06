@@ -33,6 +33,7 @@ DIRECT не зависит от сервера: если Proxmox выключе�
 3. [Настройте OpenWrt и firewall](docs/03-openwrt-и-firewall.md).
 4. [Подключите Nikki/Mihomo, Berendey, Remnawave и DNS](docs/04-nikki-mihomo-dns.md).
 5. [Проверьте fail-closed и подготовьте откат](docs/05-проверка-и-откат.md).
+6. Для сопровождения настройки через Cursor используйте [готовый промт](docs/CURSOR-PROMPT.md).
 
 Шаблоны лежат в [`templates/`](templates/). Они не содержат секретов и не применяются автоматически.
 
